@@ -1,0 +1,163 @@
+Name:           perl-Boost-Geometry-Utils
+Version:        0.15
+Release:        26%{?dist}
+Summary:        Boost::Geometry::Utils Perl module
+License:        GPL+ or Artistic
+URL:            https://metacpan.org/release/Boost-Geometry-Utils
+Source0:        https://cpan.metacpan.org/authors/id/A/AA/AAR/Boost-Geometry-Utils-%{version}.tar.gz
+# Fix for RT#96145
+Patch0:         Boost-Geometry-Utils-0.15-multi_linestring2perl-only-extend-the-array-if-needed.patch
+BuildRequires:  gcc-c++
+BuildRequires:  perl-devel
+BuildRequires:  perl-generators
+BuildRequires:  perl(Exporter)
+BuildRequires:  perl(ExtUtils::CBuilder)
+BuildRequires:  perl(ExtUtils::Typemaps::Default)
+BuildRequires:  perl(File::Temp)
+BuildRequires:  perl(Module::Build)
+BuildRequires:  perl(Module::Build::WithXSpp)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(XSLoader)
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+
+%{?perl_default_filter} # Filters (not)shared c libs
+
+%description
+Boost::Geometry::Utils Perl module
+
+%prep
+%setup -q -n Boost-Geometry-Utils-%{version}
+%patch0 -p1
+
+%build
+perl Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
+./Build
+
+%install
+./Build install destdir=%{buildroot} create_packlist=0
+find %{buildroot} -type f -name '*.bs' -size 0 -exec rm -f {} \;
+
+%{_fixperms} %{buildroot}/*
+
+%check
+./Build test
+
+%files
+%doc CHANGES LICENSE README
+%{perl_vendorarch}/auto/*
+%{perl_vendorarch}/Boost*
+%{_mandir}/man3/*
+
+%changelog
+* Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-26
+- Perl 5.32 rebuild
+
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Fri May 31 2019 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-23
+- Perl 5.30 rebuild
+
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Thu Jun 28 2018 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-20
+- Perl 5.28 rebuild
+
+* Thu Mar 01 2018 Petr Pisar <ppisar@redhat.com> - 0.15-19
+- Adapt to removing GCC from a build root (bug #1547165)
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Mon Jun 05 2017 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-15
+- Perl 5.26 rebuild
+
+* Mon May 15 2017 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_27_Mass_Rebuild
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Mon May 16 2016 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-12
+- Perl 5.24 rebuild
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sat Jun 06 2015 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-9
+- Perl 5.22 rebuild
+
+* Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 0.15-8
+- Rebuilt for GCC 5 C++11 ABI change
+
+* Thu Aug 28 2014 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-7
+- Perl 5.20 rebuild
+
+* Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Mon Aug 04 2014 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-5
+- Fix for Perl 5.20 (RT#96145)
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Fri Aug 02 2013 Petr Pisar <ppisar@redhat.com> - 0.15-2
+- Perl 5.18 rebuild
+
+* Mon Jun 24 2013 Miro Hrončok <mhroncok@redhat.com> - 0.15-1
+- New upstream release
+
+* Wed Apr 03 2013 Miro Hrončok <mhroncok@redhat.com> - 0.06-1
+- New upstream release
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.05-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Fri Jan 18 2013 Miro Hrončok <mhroncok@redhat.com> - 0.05-6
+- Added back:  perl(ExtUtils::Typemaps::Default)
+
+* Thu Jan 17 2013 Miro Hrončok <mhroncok@redhat.com> - 0.05-5
+- Dropped perl macro in MODULE_COMPAT
+- Removed src and xsp from %%doc
+- Dropped converting src to UTF-8
+- Dropped converting newlines and dos2unix BR
+- Dropped BRs: perl(ExtUtils::Typemaps::Default)
+               perl(ExtUtils::XSpp)
+               perl(Module::Build)
+- Added BRs:   perl(File::Temp)
+               perl(Exporter)
+               perl(XSLoader)
+
+* Thu Jan 17 2013 Miro Hrončok <mhroncok@redhat.com> - 0.05-4
+- Using dos2unix instead of sed
+- Removed deleting empty dirs
+- Dropped perl macro
+
+* Fri Nov 16 2012 Miro Hrončok <miro@hroncok.cz> - 0.05-3
+- Removed BRs provided by perl package
+
+* Sun Oct 07 2012 Miro Hrončok <miro@hroncok.cz> 0.05-2
+- Rebuilding for 32bit, no spec changes.
+
+* Tue Sep 25 2012 Miro Hrončok <miro@hroncok.cz> 0.05-1
+- Specfile autogenerated by cpanspec 1.78.

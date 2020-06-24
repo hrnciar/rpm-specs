@@ -1,0 +1,229 @@
+# cargo test is disabled by default as it requires etherparse, and doesn't do much
+# make test / python scapy requires unshare and CLONE_NETNS which aren't allowed on koji
+%bcond_with check
+
+%global crate libslirp
+
+Name:           rust-%{crate}
+Version:        4.2.2
+Release:        3%{?dist}
+Summary:        High-level bindings & helper process for libslirp
+
+License:        MIT
+URL:            https://crates.io/crates/libslirp
+Source:         %{crates_source}
+
+ExclusiveArch:  %{rust_arches}
+%if %{__cargo_skip_build}
+BuildArch:      noarch
+%endif
+
+BuildRequires:  rust-packaging
+
+%global _description %{expand:
+High-level bindings & helper process for libslirp.}
+
+%description %{_description}
+
+%if ! %{__cargo_skip_build}
+%package     -n %{crate}-helper
+Summary:        %{summary}
+# * ASL 2.0
+# * ASL 2.0 or MIT
+# * BSD
+# * MIT
+# * MIT or ASL 2.0
+# * Unlicense or MIT
+License:        MIT and ASL 2.0 and BSD
+
+%description -n %{crate}-helper %{_description}
+
+%files       -n %{crate}-helper
+%license LICENSE
+%{_bindir}/libslirp-helper
+%endif
+
+%package        devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description    devel %{_description}
+
+This package contains library source intended for building other packages
+which use "%{crate}" crate.
+
+%files          devel
+%license LICENSE
+%{cargo_registry}/%{crate}-%{version_no_tilde}/
+
+%package     -n %{name}+default-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+default-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "default" feature of "%{crate}" crate.
+
+%files       -n %{name}+default-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+dbus-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+dbus-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "dbus" feature of "%{crate}" crate.
+
+%files       -n %{name}+dbus-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+ipnetwork-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+ipnetwork-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "ipnetwork" feature of "%{crate}" crate.
+
+%files       -n %{name}+ipnetwork-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+lazy_static-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+lazy_static-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "lazy_static" feature of "%{crate}" crate.
+
+%files       -n %{name}+lazy_static-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+libc-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+libc-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "libc" feature of "%{crate}" crate.
+
+%files       -n %{name}+libc-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+libsystemd-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+libsystemd-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "libsystemd" feature of "%{crate}" crate.
+
+%files       -n %{name}+libsystemd-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+mio-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+mio-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "mio" feature of "%{crate}" crate.
+
+%files       -n %{name}+mio-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+mio-extras-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+mio-extras-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "mio-extras" feature of "%{crate}" crate.
+
+%files       -n %{name}+mio-extras-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+nix-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+nix-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "nix" feature of "%{crate}" crate.
+
+%files       -n %{name}+nix-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+slab-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+slab-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "slab" feature of "%{crate}" crate.
+
+%files       -n %{name}+slab-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+structopt-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+structopt-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "structopt" feature of "%{crate}" crate.
+
+%files       -n %{name}+structopt-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+url-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+url-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "url" feature of "%{crate}" crate.
+
+%files       -n %{name}+url-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%prep
+%autosetup -n %{crate}-%{version_no_tilde} -p1
+%cargo_prep
+
+%generate_buildrequires
+%cargo_generate_buildrequires
+
+%build
+%cargo_build
+
+%install
+%cargo_install
+
+%if %{with check}
+%check
+%cargo_test
+%endif
+
+%changelog
+* Tue May 12 2020 Igor Raits <ignatenkobrain@fedoraproject.org. - 4.2.2-3
+- Rename subpackage to a libslirp-helper
+
+* Mon May 11 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.2.2-2
+- Fixup license
+
+* Wed May 06 21:46:00 CEST 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 4.2.2-1
+- Initial package

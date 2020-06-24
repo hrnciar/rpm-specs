@@ -1,0 +1,101 @@
+Summary:   Documentation for Enlightenment, DR16
+Name:      e16-docs
+Version:   0.16.8.0.2
+Release:   18%{?dist}
+License:   MIT with advertising
+URL:       http://www.enlightenment.org/
+Source:    http://downloads.sourceforge.net/enlightenment/%{name}-%{version}.tar.gz
+BuildArch: noarch
+Requires:  e16 >= 0.16.8 dejavu-sans-fonts
+
+%description
+This package contains documentation for Enlightenment, DR16.
+
+%prep
+%setup -q
+
+%build
+%configure
+%{__make} %{?_smp_mflags} 
+
+%install
+%{__rm} -rf %{buildroot}
+%{__make} install DESTDIR=%{buildroot} INSTALL="%{__install} -p"
+
+%files
+%doc AUTHORS COPYING README
+%{_datadir}/e16/E-docs
+
+%changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.8.0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.8.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Thu Feb 23 2009 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.2-2
+- More font work
+
+* Thu Jan  8 2009 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.2-1
+- 0.16.8.0.2
+
+* Sat Dec 27 2008 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.1-4
+- Use Dejavu fonts 
+
+* Thu Dec 25 2008 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.1-3
+- Move font req.
+
+* Tue Apr 29 2008 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.1-2
+- fonts already in bitstream-vera-fonts, symlink
+- fix typo in summary
+
+* Tue Mar 27 2008 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8.0.1-1
+- 0.16.8.0.1
+- Fix license
+
+* Tue Aug 21 2007 Terje Rosten <terjeros@phys.ntnu.no> - 0.16.8-0.1.0.02
+- Initial build
+
+

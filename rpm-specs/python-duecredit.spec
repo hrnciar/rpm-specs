@@ -1,0 +1,115 @@
+%global srcname duecredit
+
+%global _description %{expand: \
+duecredit is being conceived to address the problem of inadequate citation of
+scientific software and methods, and limited visibility of donation requests
+for open-source software.
+
+It provides a simple framework (at the moment for Python only) to embed
+publication or other references in the original code so they are automatically
+collected and reported to the user at the necessary level of reference detail,
+i.e. only references for actually used functionality will be presented back if
+software provides multiple citeable implementations.}
+
+Name:           python-%{srcname}
+Version:        0.8.0
+Release:        2%{?dist}
+Summary:        Automated collection and reporting of citations
+
+License:        BSD
+URL:            https://github.com/%{srcname}/%{srcname}
+Source0:        %pypi_source
+
+BuildArch:      noarch
+
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist lxml}
+BuildRequires:  %{py3_dist citeproc-py}
+BuildRequires:  %{py3_dist requests}
+BuildRequires:  %{py3_dist vcrpy}
+BuildRequires:  %{py3_dist contextlib2}
+
+Requires:       %{py3_dist six}
+Requires:       %{py3_dist citeproc-py}
+Requires:       %{py3_dist requests}
+
+%description
+%{_description}
+
+%package -n python3-%{srcname}
+Summary:        %{summary}
+%{?python_provide:%python_provide python3-%{srcname}}
+BuildRequires:  python3-devel
+
+%description -n python3-%{srcname}
+%{_description}
+
+%package doc
+Summary:        Documentation for %{name}
+
+%description doc
+Documentation for %{name}.
+
+%prep
+%autosetup -n %{srcname}-%{version}
+rm -rfv *egg-info
+
+%build
+%py3_build
+
+%install
+%py3_install
+
+%check
+PYTHONPATH=%{buildroot}/%{python3_sitelib} pytest-3 duecredit/tests --ignore=duecredit/tests/test_io.py
+
+%files -n python3-%{srcname}
+%license LICENSE
+%{_bindir}/%{srcname}
+%{python3_sitelib}/%{srcname}*
+
+%files doc
+%license LICENSE
+%doc examples/
+
+%changelog
+* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-2
+- Rebuilt for Python 3.9
+
+* Tue Apr 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.8.0-1
+- Update to 0.8.0
+- Remove py2 bits
+
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-4
+- Rebuilt for Python 3.8.0rc1 (#1748018)
+
+* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-3
+- Rebuilt for Python 3.8
+
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Wed Apr 10 2019 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.7.0-1
+- Update to 0.7.0
+
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Sun Nov 04 2018 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.4-2
+- Shorten summary
+- Remove stray empty line in description
+- Improve description for doc package
+
+* Sat Nov 03 2018 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.4-1
+- Update to new version
+- Only install py3 bin
+- Use macro for description
+- use pydist macros
+- use pypi_source macro
+
+* Wed Nov 11 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.4.4.1-1
+- Initial package
