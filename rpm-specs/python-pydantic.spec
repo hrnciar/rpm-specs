@@ -47,7 +47,7 @@ rm -rf pydantic.egg-info
 %license LICENSE
 %doc README.md docs/
 %{python3_sitelib}/pydantic
-%{python3_sitelib}/pydantic-%{version}-py?.?.egg-info
+%{python3_sitelib}/pydantic-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3-5

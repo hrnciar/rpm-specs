@@ -75,7 +75,7 @@ install -p -m 0644 doc/_build/man/%{realname}.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 %{_bindir}/*
 %{_mandir}/man1/%{realname}.1.*
 %{python3_sitelib}/%{realname}
-%{python3_sitelib}/%{realname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{realname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.8-10

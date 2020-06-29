@@ -51,7 +51,7 @@ sed -i "1 d" uritemplate/__init__.py
 %files -n python3-%{srcname}
 %doc README.rst
 %{python3_sitelib}/uritemplate/
-%{python3_sitelib}/uritemplate-%{version}-py?.?.egg-info
+%{python3_sitelib}/uritemplate-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

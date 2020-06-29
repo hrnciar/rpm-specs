@@ -59,7 +59,7 @@ rm -f requirements.txt
 %doc README.md
 %license LICENSE
 %{python3_sitelib}/warlock
-%{python3_sitelib}/warlock-%{version}-py?.?.egg-info
+%{python3_sitelib}/warlock-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.3-3

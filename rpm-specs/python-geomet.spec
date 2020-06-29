@@ -63,7 +63,7 @@ rm %{buildroot}%{_prefix}/LICENSE
 %license LICENSE
 %{_bindir}/geomet
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

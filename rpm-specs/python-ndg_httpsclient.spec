@@ -61,7 +61,7 @@ grep -qv python2 %{buildroot}%{_bindir}/ndg_httpclient
 %files -n python3-%{pypi_name}
 %{_bindir}/ndg_httpclient
 %{python3_sitelib}/ndg/
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-6

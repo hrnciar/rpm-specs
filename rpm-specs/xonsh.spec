@@ -91,7 +91,7 @@ fi
 %{_bindir}/xonsh-cat
 %{python3_sitelib}/xonsh/
 %{python3_sitelib}/xontrib/
-%{python3_sitelib}/xonsh-%{version}*-py?.?.egg-info/
+%{python3_sitelib}/xonsh-%{version}*-py%{python3_version}.egg-info/
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.17-2

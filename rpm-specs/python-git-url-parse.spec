@@ -60,7 +60,7 @@ py.test-3 -vv
 %files -n python3-%{srcname}
 %license LICENSE
 %{python3_sitelib}/giturlparse
-%{python3_sitelib}/git_url_parse-%{version}-py?.?.egg-info
+%{python3_sitelib}/git_url_parse-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %license LICENSE

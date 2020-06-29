@@ -39,7 +39,7 @@ PYTHONPATH=. py.test-%{python3_version} pypeg2/test
 %files
 %license LICENSE.txt
 %doc README.txt CHANGES.txt PKG-INFO docs
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/pypeg2
 
 

@@ -45,7 +45,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.md
 %{_bindir}/click-man
 %{python3_sitelib}/click_man
-%{python3_sitelib}/click_man-%{version}-py?.?.egg-info
+%{python3_sitelib}/click_man-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

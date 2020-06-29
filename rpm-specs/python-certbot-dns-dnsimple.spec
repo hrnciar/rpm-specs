@@ -163,7 +163,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/certbot_dns_dnsimple
-%{python3_sitelib}/certbot_dns_dnsimple-%{version}-py?.?.egg-info
+%{python3_sitelib}/certbot_dns_dnsimple-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc html

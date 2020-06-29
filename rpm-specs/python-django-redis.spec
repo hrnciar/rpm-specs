@@ -46,7 +46,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{modname}
-%{python3_sitelib}/django_redis-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_redis-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.5.0-11

@@ -103,7 +103,7 @@ PYTHON=python2 stestr-2 run
 %files -n python3-%{srcname}
 %doc README.rst
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %if 0%{?with_python2}

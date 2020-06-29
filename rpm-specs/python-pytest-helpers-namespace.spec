@@ -50,7 +50,7 @@ rm -rf %{srcname}.egg-info
 %files -n python3-%{srcname}
 %doc README.rst
 %{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

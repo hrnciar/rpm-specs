@@ -61,7 +61,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 %{_datadir}/jupyter/kernels/octave
 
 

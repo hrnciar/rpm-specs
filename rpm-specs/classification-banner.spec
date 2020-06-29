@@ -55,7 +55,7 @@ export DISPLAY=":0.0"
 %license LICENSE
 %doc README.md AUTHOR Contributors.md
 %{python3_sitelib}/classification_banner
-%{python3_sitelib}/classification_banner-%{version}-py?.?.egg-info
+%{python3_sitelib}/classification_banner-%{version}-py%{python3_version}.egg-info
 
 %config(noreplace) %{_sysconfdir}/%{name}/banner.conf
 %config(noreplace) %{_sysconfdir}/xdg/autostart/classification-banner.desktop

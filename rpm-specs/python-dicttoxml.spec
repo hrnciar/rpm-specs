@@ -46,7 +46,7 @@ nesting for the collections.
 %license LICENCE.txt
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{pypi_name}.py
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.4-2

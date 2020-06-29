@@ -50,7 +50,7 @@ python3 -m pytest test -v \
 %endif
 
 %files -n python3-%{name}
-%{python3_sitearch}/posix1e.cpython-??*
+%{python3_sitearch}/posix1e.cpython-%{python3_version_nodots}*
 %{python3_sitearch}/*egg-info
 %license COPYING
 %doc README.rst NEWS

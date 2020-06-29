@@ -44,7 +44,7 @@ install -pDm644 %{SOURCE1} %{buildroot}%{_mandir}/man1/csvdiff.1
 %doc AUTHORS.rst CONTRIBUTING.rst HISTORY.rst README.rst  
 %{_bindir}/*
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{_mandir}/man1/*
 
 %changelog

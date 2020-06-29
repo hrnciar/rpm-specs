@@ -44,7 +44,7 @@ pytest-%{python3_version} -v tests --ignore tests/test_benchmark.py
 %doc README.rst History.md examples
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.5-12

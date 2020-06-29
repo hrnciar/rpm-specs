@@ -122,7 +122,7 @@ ln -s ./pelican-themes %{buildroot}/%{_bindir}/pelican-themes-3
 %{_bindir}/pelican-themes-3
 
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-*-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-*-py%{python3_version}.egg-info
 
 
 %changelog

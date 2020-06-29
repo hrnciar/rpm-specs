@@ -79,7 +79,7 @@ done
 %doc README.rst demo/README.rst helpdesk/static/helpdesk/vendor/datatables/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/AutoFill/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/Buttons/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/ColReorder/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/FixedColumns/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/FixedHeader/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/KeyTable/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/Responsive/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/RowGroup/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/RowReorder/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/Scroller/Readme.md helpdesk/static/helpdesk/vendor/datatables/extensions/Select/Readme.md helpdesk/static/helpdesk/vendor/flot/README.md helpdesk/static/helpdesk/vendor/morrisjs/README.md
 %{python3_sitelib}/helpdesk
 %exclude %{python3_sitelib}/helpdesk/locale
-%{python3_sitelib}/django_helpdesk-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_helpdesk-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.21-2

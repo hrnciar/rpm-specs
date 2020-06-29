@@ -50,7 +50,7 @@ PYTHONPATH=. pytest-3
 %files -n python3-%{pypi_name}
 %doc README.md
 %{python3_sitelib}/resumable
-%{python3_sitelib}/resumable_urlretrieve-%{version}-py?.?.egg-info
+%{python3_sitelib}/resumable_urlretrieve-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.6-6

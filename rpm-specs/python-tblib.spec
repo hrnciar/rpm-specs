@@ -61,7 +61,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:tests" \
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

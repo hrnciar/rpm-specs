@@ -45,7 +45,7 @@ simple.
 %files -n python3-django-tagging
 %doc CHANGELOG.txt LICENSE.txt README.rst docs/*
 %{python3_sitelib}/tagging/
-%{python3_sitelib}/django_tagging-%{version}-py?.?.egg-info/
+%{python3_sitelib}/django_tagging-%{version}-py%{python3_version}.egg-info/
 
 
 %changelog

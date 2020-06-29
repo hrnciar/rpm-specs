@@ -76,7 +76,7 @@ fi
 %attr(-,bucky,bucky) %{_localstatedir}/run/bucky
 %config(noreplace) %{_sysconfdir}/bucky/bucky.conf
 %{python3_sitelib}/bucky/
-%{python3_sitelib}/bucky-%{version}-py?.?.egg-info
+%{python3_sitelib}/bucky-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

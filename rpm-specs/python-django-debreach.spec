@@ -51,7 +51,7 @@ PYTHONPATH=. %{__python3} setup.py test
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/debreach
-%{python3_sitelib}/django_debreach-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_debreach-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-3

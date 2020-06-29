@@ -39,7 +39,7 @@ Python library that implements API used by ydiff tool.
 %files -n python3-%{name}
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{name}.py
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-9

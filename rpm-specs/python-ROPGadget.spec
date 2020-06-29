@@ -49,7 +49,7 @@ done
 %files -n python3-%{srcname}
 %doc LICENSE_BSD.txt README.md
 %{python3_sitelib}/ropgadget
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/*
 
 %changelog

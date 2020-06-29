@@ -55,7 +55,7 @@ PYTHONPATH="%{buildroot}%{python3_sitearch}" \
 %doc README.rst
 %license LICENSE
 %{python3_sitearch}/%{srcname}.cpython-*.so
-%{python3_sitearch}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

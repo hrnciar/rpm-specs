@@ -52,7 +52,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.rst
 %{python3_sitearch}/%{pypi_name}/
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info/
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 %{python3_sitearch}/*.so
 
 

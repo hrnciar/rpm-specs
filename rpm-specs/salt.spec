@@ -264,7 +264,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{python3_sitelib}/%{name}/*
-%{python3_sitelib}/%{name}-*-py?.?.egg-info
+%{python3_sitelib}/%{name}-*-py%{python3_version}.egg-info
 %{_sysconfdir}/logrotate.d/salt
 %{_sysconfdir}/bash_completion.d/salt.bash
 %{_var}/cache/salt

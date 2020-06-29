@@ -41,7 +41,7 @@ rm -rf $RPM_BUILD_ROOT/%{python3_sitelib}/codespell_lib/tests
 %doc README.rst
 %{_bindir}/codespell
 %{python3_sitelib}/codespell_lib
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Fri Jun 19 2020 Bastien Nocera <bnocera@redhat.com> - 1.17.1-4

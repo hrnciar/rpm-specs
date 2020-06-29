@@ -44,7 +44,7 @@ cp %{SOURCE1} .
 %files -n python3-%{pypi_name}
 %license LICENSE.txt
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}.pth
 
 %changelog

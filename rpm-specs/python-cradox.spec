@@ -96,7 +96,7 @@ Python libraries for the Ceph librados library with use cython instead of ctypes
 %doc README.rst
 %license LICENSE
 %{python3_sitearch}/cradox.*.so
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

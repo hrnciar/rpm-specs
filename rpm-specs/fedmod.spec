@@ -102,7 +102,7 @@ fi
 %dir %{_sysconfdir}/fedmod
 %config(noreplace) %{_sysconfdir}/fedmod/*.yaml
 %{python3_sitelib}/_fedmod
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %dir %{_datadir}/bash-completion
 %dir %{_datadir}/bash-completion/completions
 %{_datadir}/bash-completion/completions/fedmod

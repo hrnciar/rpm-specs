@@ -48,7 +48,7 @@ sed -i '1{\=^#!/usr/bin/env python=d}' %{buildroot}%{python3_sitelib}/%{name}.py
 %{_bindir}/%{name}.py
 %{python3_sitelib}/%{name}.py
 %{python3_sitelib}/__pycache__/*.pyc
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-2

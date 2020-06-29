@@ -50,7 +50,7 @@ rm -rf %{buildroot}%{python3_sitelib}/httpsig_cffi/tests
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/httpsig_cffi
-%{python3_sitelib}/httpsig_cffi-%{version}-py?.?.egg-info
+%{python3_sitelib}/httpsig_cffi-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 15.0.0-9

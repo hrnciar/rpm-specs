@@ -86,7 +86,7 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} PYTHONDONTWRITEBYTECODE=1 \
 %doc README.rst
 %license LICENSE
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %doc html

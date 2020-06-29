@@ -77,7 +77,7 @@ done
 %doc examples
 %{_bindir}/%{modname}
 %{python3_sitelib}/%{modname}
-%{python3_sitelib}/%{modname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{modname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

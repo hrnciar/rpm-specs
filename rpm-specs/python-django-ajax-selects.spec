@@ -50,7 +50,7 @@ Obsoletes:      python-django-ajax-selects < 1.3.4-14
 %license ajax_select/LICENSE.txt
 %doc README.md CHANGELOG.md
 %{python3_sitelib}/ajax_select
-%{python3_sitelib}/django_ajax_selects-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_ajax_selects-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8.0-3

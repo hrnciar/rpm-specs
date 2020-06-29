@@ -51,7 +51,7 @@ install -m 444 docs/websockify.1 %{buildroot}%{_mandir}/man1/
 %license COPYING
 %{_mandir}/man1/websockify.1*
 %{python3_sitelib}/websockify/
-%{python3_sitelib}/websockify-%{version}-py?.?.egg-info
+%{python3_sitelib}/websockify-%{version}-py%{python3_version}.egg-info
 %{_bindir}/websockify
 
 %files doc

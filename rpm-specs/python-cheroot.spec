@@ -101,7 +101,7 @@ rm -rf html/.{doctrees,buildinfo}
 %doc README.rst
 %{_bindir}/cheroot
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pypi_name}-doc

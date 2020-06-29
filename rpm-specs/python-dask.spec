@@ -195,7 +195,7 @@ export PYTHONDONTWRITEBYTECODE=1
 %doc README.rst
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files -n python3-%{srcname}+array
 %files -n python3-%{srcname}+bag

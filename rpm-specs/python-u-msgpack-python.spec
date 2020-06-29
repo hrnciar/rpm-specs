@@ -54,7 +54,7 @@ application-defined ext types.
 %doc README.md
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/umsgpack.py
-%{python3_sitelib}/u_msgpack_python-%{version}-py?.?.egg-info
+%{python3_sitelib}/u_msgpack_python-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

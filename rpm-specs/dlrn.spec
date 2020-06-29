@@ -275,7 +275,7 @@ exit 0
 %files -n python3-%{pkg_name}
 %license LICENSE
 %{python3_sitelib}/dlrn
-%{python3_sitelib}/DLRN-%{version}-py?.?.egg-info
+%{python3_sitelib}/DLRN-%{version}-py%{python3_version}.egg-info
 %{_bindir}/dlrn-3
 %{_bindir}/dlrn-%{python3_version}
 %endif

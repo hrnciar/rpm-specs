@@ -60,7 +60,7 @@ cython pykdtree/kdtree.pyx
 %files -n python3-%{srcname}
 %license LICENSE.txt
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

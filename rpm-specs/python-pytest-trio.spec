@@ -60,7 +60,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.MIT LICENSE LICENSE.APACHE2
 %doc README.rst
 %{python3_sitelib}/pytest_trio/
-%{python3_sitelib}/pytest_trio-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_trio-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc html

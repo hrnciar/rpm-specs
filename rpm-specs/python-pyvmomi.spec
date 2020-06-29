@@ -153,7 +153,7 @@ find %{buildroot} -name requires.txt -print -delete
 %doc README.rst
 %{python3_sitelib}/pyVmomi
 %{python3_sitelib}/pyVim
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %if 0%{?python3_other_pkgversion}

@@ -43,7 +43,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/apply_defaults/
-%{python3_sitelib}/apply_defaults-%{version}-py?.?.egg-info
+%{python3_sitelib}/apply_defaults-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.4-4

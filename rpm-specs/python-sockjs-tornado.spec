@@ -46,8 +46,8 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/sockjs
-%{python3_sitelib}/sockjs_tornado-%{version}-py?.?.egg-info
-%{python3_sitelib}/sockjs_tornado-%{version}-py?.?-nspkg.pth
+%{python3_sitelib}/sockjs_tornado-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/sockjs_tornado-%{version}-py%{python3_version}-nspkg.pth
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-16

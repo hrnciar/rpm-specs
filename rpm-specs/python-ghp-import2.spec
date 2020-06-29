@@ -64,7 +64,7 @@ done
 %doc README.rst
 %{_bindir}/ghp-import
 %{python3_sitelib}/ghp_import
-%{python3_sitelib}/ghp_import2-%{version}-py?.?.egg-info
+%{python3_sitelib}/ghp_import2-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-7

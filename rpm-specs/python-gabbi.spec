@@ -91,7 +91,7 @@ rm -rf html/.{doctrees,buildinfo}
 %{_bindir}/%{pypi}
 %{_mandir}/man1/gabbi.1*
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %exclude %{python3_sitelib}/gabbi/tests/gabbits_intercept/horse
 
 %files -n python-%{pypi_name}-doc

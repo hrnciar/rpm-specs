@@ -378,7 +378,7 @@ rm -rf $RPM_BUILD_ROOT/%{python2_sitelib}/kobo/hub
 %{python3_sitelib}/kobo/*.py*
 %{python3_sitelib}/kobo/__pycache__
 %exclude %{python3_sitelib}/kobo/rpmlib.py*
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %doc AUTHORS
 %license COPYING LICENSE
 

@@ -73,7 +73,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications examples/jupyter
 %doc README.md
 %{_bindir}/jupyter-qtconsole
 %{_datadir}/applications/jupyter-qtconsole.desktop
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}/*
 %dir %{python3_sitelib}/%{pypi_name}/
 

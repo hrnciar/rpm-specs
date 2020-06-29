@@ -63,7 +63,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} MPLBACKEND=Agg PYTHONDONTWRITEBYTECODE
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/pytest_mpl
-%{python3_sitelib}/pytest_mpl-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_mpl-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -73,7 +73,7 @@ PYTHONPATH=build/lib/ py.test-3
 %doc mycli/AUTHORS README.md mycli/SPONSORS
 %{_bindir}/mycli
 %{python3_sitelib}/mycli
-%{python3_sitelib}/mycli-%{version}-py?.?.egg-info
+%{python3_sitelib}/mycli-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.21.1-5

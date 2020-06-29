@@ -97,7 +97,7 @@ EOF
 %doc README.md AUTHORS ARTISTS DOCUMENTERS TRANSLATORS
 %license LICENSE
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/%{name}
 %{_datadir}/pychess
 %{_datadir}/gtksourceview-2.0/language-specs/pgn.lang

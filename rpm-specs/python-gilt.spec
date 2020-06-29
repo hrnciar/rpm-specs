@@ -64,7 +64,7 @@ rm -rf build/html/.{doctrees,buildinfo}
 %files -n python3-%{srcname}
 %license LICENSE
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/python_%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_%{srcname}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/%{srcname}
 
 %files -n python-%{srcname}-doc

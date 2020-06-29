@@ -62,7 +62,7 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python3-%{pypi_name}
 %doc CHANGES.rst README.rst LICENSE docs/
 %{python3_sitelib}/django_filters
-%{python3_sitelib}/django_filter-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_filter-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc html

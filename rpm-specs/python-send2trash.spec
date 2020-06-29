@@ -56,7 +56,7 @@ from freedesktop.org.
 %license LICENSE
 %doc README.rst CHANGES.rst
 %{python3_sitelib}/send2trash/
-%{python3_sitelib}/%{pypiname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypiname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.2-13

@@ -100,7 +100,7 @@ sed -i 's/pika >=0.9,<0.11/pika >=0.9/' setup.py
 %dir %{python3_sitelib}/__pycache__/
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/pika_pool.py
-%{python3_sitelib}/pika_pool-%{version}-py?.?.egg-info
+%{python3_sitelib}/pika_pool-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

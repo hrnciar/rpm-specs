@@ -61,7 +61,7 @@ chmod -x README.rst
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/pytest_xprocess.py
 %{python3_sitelib}/xprocess.py
-%{python3_sitelib}/pytest_xprocess-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_xprocess-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.1-6

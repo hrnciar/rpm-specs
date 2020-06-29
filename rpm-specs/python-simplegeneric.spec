@@ -56,7 +56,7 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test
 %doc README.txt
 %{python3_sitelib}/__pycache__/simplegeneric.cpython*
 %{python3_sitelib}/simplegeneric.py
-%{python3_sitelib}/simplegeneric-%{version}-py?.?.egg-info/
+%{python3_sitelib}/simplegeneric-%{version}-py%{python3_version}.egg-info/
 
 
 %changelog

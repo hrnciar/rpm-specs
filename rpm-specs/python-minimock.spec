@@ -41,7 +41,7 @@ minimock is a simple library for doing Mock objects with doctest.
 
 %files -n python3-minimock
 %doc docs/*
-%{python3_sitelib}/MiniMock-%{version}-py?.?.egg-info
+%{python3_sitelib}/MiniMock-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/minimock*
 %{python3_sitelib}/__pycache__/minimock*
 

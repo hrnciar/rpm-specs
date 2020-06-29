@@ -162,7 +162,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/certbot_dns_nsone
-%{python3_sitelib}/certbot_dns_nsone-%{version}-py?.?.egg-info
+%{python3_sitelib}/certbot_dns_nsone-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc html

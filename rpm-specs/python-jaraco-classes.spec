@@ -80,7 +80,7 @@ LANG=C.utf-8 %{__python3} -m pytest --ignore=build
 %exclude %{python3_sitelib}/jaraco/__init__*
 %exclude %{python3_sitelib}/jaraco/__pycache__/__init__*
 %{python3_sitelib}/jaraco
-%{python3_sitelib}/jaraco.classes-%{version}-py?.?.egg-info
+%{python3_sitelib}/jaraco.classes-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pkg_name}-doc

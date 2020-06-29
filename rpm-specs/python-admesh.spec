@@ -61,7 +61,7 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-3 -v \
 %doc README.rst
 %license COPYING
 %attr(0755,root,root) %{python3_sitearch}/%{pypi_name}.*.so
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

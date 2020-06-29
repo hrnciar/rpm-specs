@@ -79,7 +79,7 @@ fi
 %license LICENSE
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{pypi_name}.py
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files selinux
 %{_datadir}/selinux/packages/%{name}/collectd_systemd.pp

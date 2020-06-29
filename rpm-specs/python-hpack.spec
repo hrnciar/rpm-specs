@@ -51,7 +51,7 @@ rm -rf bench
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-10

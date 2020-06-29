@@ -47,7 +47,7 @@ rm -rf %{srcname}.egg-info
 # Ignore tests
 %exclude %{python3_sitelib}/tests
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.9-11

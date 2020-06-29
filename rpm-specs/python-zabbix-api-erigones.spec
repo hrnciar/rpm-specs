@@ -48,7 +48,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/zabbix_api.py
-%{python3_sitelib}/zabbix_api_erigones-%{version}-py?.?.egg-info
+%{python3_sitelib}/zabbix_api_erigones-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.4-12

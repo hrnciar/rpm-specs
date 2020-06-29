@@ -71,7 +71,7 @@ done
 %{python3_sitelib}/docs
 %{python3_sitelib}/%{pypi_name}
 %{python3_sitelib}/tests
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 #%doc html

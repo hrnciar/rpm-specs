@@ -44,7 +44,7 @@ PYTHONPATH=$(pwd) py.test-%{python3_version}
 %{_bindir}/%{pypi_name}
 %{_mandir}/man1/spec2scl.1*
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.2-5

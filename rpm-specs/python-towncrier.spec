@@ -69,7 +69,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib}:$PYTHONPATH  %{_bindir}/trial towncrie
 %doc README.rst
 %{_bindir}/towncrier
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

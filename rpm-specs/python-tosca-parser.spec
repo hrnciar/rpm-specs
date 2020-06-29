@@ -194,7 +194,7 @@ ln -s ./tosca-parser-2 %{buildroot}%{_bindir}/tosca-parser
 %{_bindir}/tosca-parser-3
 %{_bindir}/tosca-parser-%{python3_version}
 %{python3_sitelib}/toscaparser
-%{python3_sitelib}/tosca_parser-%{version}-py?.?.egg-info
+%{python3_sitelib}/tosca_parser-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

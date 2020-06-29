@@ -51,7 +51,7 @@ done
 %{_bindir}/espsecure
 %{_bindir}/espsecure.py
 %{python3_sitelib}/esp*.py*
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/esp*.*.pyc
 
 %changelog

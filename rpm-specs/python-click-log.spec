@@ -49,7 +49,7 @@ applications.
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{pyname}
-%{python3_sitelib}/%{pyname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pyname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-10

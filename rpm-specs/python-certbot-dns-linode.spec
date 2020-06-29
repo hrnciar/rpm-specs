@@ -172,7 +172,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/certbot_dns_linode
-%{python3_sitelib}/certbot_dns_linode-%{version}-py?.?.egg-info
+%{python3_sitelib}/certbot_dns_linode-%{version}-py%{python3_version}.egg-info
 %endif
 
 %if %{with docs}

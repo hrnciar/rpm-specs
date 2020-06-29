@@ -63,7 +63,7 @@ rm -rf %{src_name}.egg-info
 %doc README.rst
 %license LICENSE.txt
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{src_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{src_name}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/vba_extract.py
 
 %changelog

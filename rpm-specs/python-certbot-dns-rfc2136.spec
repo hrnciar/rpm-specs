@@ -172,7 +172,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/certbot_dns_rfc2136
-%{python3_sitelib}/certbot_dns_rfc2136-%{version}-py?.?.egg-info
+%{python3_sitelib}/certbot_dns_rfc2136-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

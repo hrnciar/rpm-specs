@@ -61,7 +61,7 @@ chmod 0644 README.rst
 %doc README.rst
 %{python3_sitelib}/markdownx
 %exclude %{python3_sitelib}/markdownx/locale
-%{python3_sitelib}/django_markdownx-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_markdownx-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.1-3

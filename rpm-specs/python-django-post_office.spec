@@ -52,7 +52,7 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %license LICENSE.txt
 %doc README.rst AUTHORS.rst
 %{python3_sitelib}/post_office
-%{python3_sitelib}/django_post_office-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_post_office-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.0-3

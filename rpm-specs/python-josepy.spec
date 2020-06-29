@@ -194,7 +194,7 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/*.1*
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/josepy
-%{python3_sitelib}/josepy-%{version}-py?.?.egg-info
+%{python3_sitelib}/josepy-%{version}-py%{python3_version}.egg-info
 %{_bindir}/jws
 %endif
 

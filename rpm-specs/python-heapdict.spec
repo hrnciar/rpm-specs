@@ -50,7 +50,7 @@ BuildRequires:  python3-test
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}.py
-%{python3_sitelib}/%{pkgname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pkgname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/%{srcname}*.py?
 
 

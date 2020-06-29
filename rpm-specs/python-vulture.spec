@@ -64,7 +64,7 @@ ln -s %{_bindir}/vulture-%{python3_version} %{buildroot}/%{_bindir}/vulture
 %{_bindir}/%{module_name}-%{python3_version}
 %{python3_sitelib}/%{module_name}/__pycache__
 %{python3_sitelib}/%{module_name}
-%{python3_sitelib}/%{module_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{module_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-4

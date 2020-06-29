@@ -61,7 +61,7 @@ rm %{buildroot}%{_bindir}/install_c_kernel
 %doc README.md
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 %{_datadir}/jupyter/kernels/c
 
 

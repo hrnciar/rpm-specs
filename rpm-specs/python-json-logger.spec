@@ -47,7 +47,7 @@ rm -rf %{pypi_name}.egg-info
 
 %files -n python3-json-logger
 %{python3_sitelib}/pythonjsonlogger
-%{python3_sitelib}/python_json_logger-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_json_logger-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.7-13

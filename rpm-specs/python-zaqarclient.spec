@@ -56,7 +56,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst ChangeLog examples
 %license LICENSE
 %{python3_sitelib}/zaqarclient
-%{python3_sitelib}/python_zaqarclient-*-py?.?.egg-info
+%{python3_sitelib}/python_zaqarclient-*-py%{python3_version}.egg-info
 
 %changelog
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 1.13.1-1

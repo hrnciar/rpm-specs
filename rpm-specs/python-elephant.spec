@@ -110,7 +110,7 @@ popd
 %license LICENSE.txt elephant/spade_src/LICENSE
 %doc README.md elephant/current_source_density_src/README.md
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pypi_name}-doc

@@ -42,7 +42,7 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 %license LICENSE
 %doc README.rst CHANGELOG.rst
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.7-7

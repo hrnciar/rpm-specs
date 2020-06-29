@@ -43,8 +43,8 @@ Summary:        %{summary}
 %doc README.rst
 %doc CHANGES.rst
 %{python3_sitelib}/sphinxcontrib
-%{python3_sitelib}/sphinxcontrib_log_cabinet-%{version}-py?.?.egg-info
-%{python3_sitelib}/sphinxcontrib_log_cabinet-%{version}-py?.?-nspkg.pth
+%{python3_sitelib}/sphinxcontrib_log_cabinet-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/sphinxcontrib_log_cabinet-%{version}-py%{python3_version}-nspkg.pth
 
 
 %changelog

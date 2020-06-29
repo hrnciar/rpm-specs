@@ -98,7 +98,7 @@ Requires:       python%{python3_pkgversion}-six
 %license LICENSE
 %doc AUTHORS
 %{python3_sitelib}/productmd/
-%{python3_sitelib}/productmd-%{version}-py?.?.egg-info
+%{python3_sitelib}/productmd-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

@@ -68,7 +68,7 @@ rm -f test/*.pyc
 %attr(755, root, root) /usr/bin/simplevisor
 %attr(755, root, root) /usr/bin/simplevisor-control
 %attr(755, root, root) /usr/bin/simplevisor-loop
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{srcname}/
 
 %changelog

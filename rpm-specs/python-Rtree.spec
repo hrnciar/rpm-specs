@@ -73,7 +73,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 %license LICENSE.txt
 %doc README.md
 %{python3_sitelib}/rtree
-%{python3_sitelib}/Rtree-%{version}-py?.?.egg-info
+%{python3_sitelib}/Rtree-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

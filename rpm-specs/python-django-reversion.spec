@@ -84,7 +84,7 @@ find $RPM_BUILD_ROOT -name "*.po" | xargs rm -f
 %{python3_sitelib}/reversion/management/
 %{python3_sitelib}/reversion/templates/
 %{python3_sitelib}/reversion/migrations/
-%{python3_sitelib}/django_reversion-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_reversion-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.13-10

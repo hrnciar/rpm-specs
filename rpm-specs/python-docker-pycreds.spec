@@ -125,7 +125,7 @@ PYTHONPATH="${PWD}" py.test-%{python3_version} -vv tests/
 %doc README.md
 %license LICENSE
 %{python3_sitelib}/dockerpycreds
-%{python3_sitelib}/docker_pycreds-%{version}-py?.?.egg-info
+%{python3_sitelib}/docker_pycreds-%{version}-py%{python3_version}.egg-info
 %endif # python3
 
 

@@ -53,7 +53,7 @@ find webscrapbook/ -type f -exec sed -i -e '/^#!/,1d' {} \+
 %{_bindir}/wsb
 %{_bindir}/wsbview
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-3

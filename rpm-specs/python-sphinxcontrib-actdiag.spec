@@ -51,7 +51,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %{python3_sitelib}/sphinxcontrib_actdiag*nspkg.pth
 %{python3_sitelib}/sphinxcontrib
-%{python3_sitelib}/sphinxcontrib_actdiag-%{version}-py?.?.egg-info
+%{python3_sitelib}/sphinxcontrib_actdiag-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.5-12

@@ -75,7 +75,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/rst
-%{python3_sitelib}/rst.linker-%{version}-py?.?.egg-info
+%{python3_sitelib}/rst.linker-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pkg_name}-doc

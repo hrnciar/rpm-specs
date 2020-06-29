@@ -103,7 +103,7 @@ rm -rf %{pypi_name}.egg-info
 %files -n python%{python3_pkgversion}-%{pypi_name}
 %doc
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

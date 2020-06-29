@@ -56,7 +56,7 @@ sed -i -e 's/valid note, /valid note. /' test/test_tone.py
 %{python3_sitelib}/%{name}
 %{python3_sitelib}/pgzrun.py
 %{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2-9

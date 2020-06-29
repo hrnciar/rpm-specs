@@ -211,8 +211,8 @@ find %{buildroot} -name '.packlist' -delete
 
 %files -n python3-prelude
 %{python3_sitearch}/_prelude.*so
-%{python3_sitearch}/__pycache__/prelude.cpython-??.*pyc
-%{python3_sitearch}/prelude-%{version}-py?.?.egg-info
+%{python3_sitearch}/__pycache__/prelude.cpython-%{python3_version_nodots}.*pyc
+%{python3_sitearch}/prelude-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/prelude.py
 
 %files -n perl-prelude

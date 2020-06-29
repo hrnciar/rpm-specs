@@ -129,7 +129,7 @@ export PYSALDATA=$PWD/pysal_data
 %doc README.rst
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %doc html libpysal/examples

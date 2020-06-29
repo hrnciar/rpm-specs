@@ -184,8 +184,8 @@ chmod +x %{buildroot}%{_datadir}/%{name}/classic/mysql2sqlite.sh
 
 %files -n python3-preludedb
 %{python3_sitearch}/_preludedb.*so
-%{python3_sitearch}/__pycache__/preludedb.cpython-??.*pyc
-%{python3_sitearch}/preludedb-%{version}-py?.?.egg-info
+%{python3_sitearch}/__pycache__/preludedb.cpython-%{python3_version_nodots}.*pyc
+%{python3_sitearch}/preludedb-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/preludedb.py
 
 %files -n preludedb-mysql

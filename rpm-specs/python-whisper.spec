@@ -88,7 +88,7 @@ install -D -p -m0644 %{SOURCE19} %{buildroot}%{_mandir}/man1
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/whisper.py*
-%{python3_sitelib}/whisper-*-py?.?.egg-info
+%{python3_sitelib}/whisper-*-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/*
 %{_bindir}/find-corrupt-whisper-files
 %{_bindir}/rrd2whisper

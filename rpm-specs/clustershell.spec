@@ -173,7 +173,7 @@ install -p -m 0644 doc/extras/vim/syntax/groupsconf.vim %{buildroot}/%{vimdatadi
 %{_bindir}/clush-%{python3_shortver}
 %{_bindir}/nodeset-%{python3_shortver}
 %{python3_sitelib}/ClusterShell/
-%{python3_sitelib}/ClusterShell-*-py?.?.egg-info
+%{python3_sitelib}/ClusterShell-*-py%{python3_version}.egg-info
 
 %else
 
@@ -188,7 +188,7 @@ install -p -m 0644 doc/extras/vim/syntax/groupsconf.vim %{buildroot}/%{vimdatadi
 %{_bindir}/clush
 %{_bindir}/nodeset
 %{python3_sitelib}/ClusterShell/
-%{python3_sitelib}/ClusterShell-*-py?.?.egg-info
+%{python3_sitelib}/ClusterShell-*-py%{python3_version}.egg-info
 
 %endif
 

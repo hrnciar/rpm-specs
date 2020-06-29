@@ -37,7 +37,7 @@ Flask Simple user session protection
 
 %files -n python%{python3_pkgversion}-%{pkg_name}
 %{python3_sitelib}/flask_paranoid
-%{python3_sitelib}/Flask_Paranoid-%{version}-py?.?.egg-info
+%{python3_sitelib}/Flask_Paranoid-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-11

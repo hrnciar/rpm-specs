@@ -171,7 +171,7 @@ rm -fr %{buildroot}%{python_sitelib}/tests
 %{_bindir}/%{pypi_name}-3*
 %{_bindir}/%{pypi_name}
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %if 0%{?with_docs}

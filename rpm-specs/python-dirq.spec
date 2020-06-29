@@ -52,7 +52,7 @@ rm -f test/*.pyc
 %files -n python3-dirq
 %doc README.rst CHANGES examples test
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.1-16

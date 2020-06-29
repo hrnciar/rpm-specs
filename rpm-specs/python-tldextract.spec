@@ -135,7 +135,7 @@ py.test-3 -x -vk "$TEST_SELECTOR" tests
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/tldextract
-%{python3_sitelib}/tldextract-%{version}-py?.?.egg-info
+%{python3_sitelib}/tldextract-%{version}-py%{python3_version}.egg-info
 %{_bindir}/tldextract
 
 %changelog

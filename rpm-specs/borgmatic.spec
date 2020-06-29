@@ -54,7 +54,7 @@ install -Dpm 0644 sample/systemd/%{name}.timer %{buildroot}%{_unitdir}/%{name}.t
 %license LICENSE
 %attr(0750, root, root) %{_sysconfdir}/borgmatic
 %attr(0750, root, root) %{_sysconfdir}/borgmatic.d
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{name}
 %{_bindir}/borgmatic
 %{_bindir}/generate-borgmatic-config

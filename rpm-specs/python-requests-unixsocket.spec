@@ -58,7 +58,7 @@ sed -i '/pytest-capturelog/d' test-requirements.txt
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/requests_unixsocket
-%{python3_sitelib}/requests_unixsocket-%{version}-py?.?.egg-info
+%{python3_sitelib}/requests_unixsocket-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-7

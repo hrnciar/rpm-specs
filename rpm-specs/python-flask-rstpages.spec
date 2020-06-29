@@ -74,7 +74,7 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python3-flask-rstpages
 %doc html LICENSE
 %{python3_sitelib}/flask_rstpages
-%{python3_sitelib}/Flask_RSTPages-%{version}-py?.?.egg-info
+%{python3_sitelib}/Flask_RSTPages-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

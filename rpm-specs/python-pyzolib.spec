@@ -53,7 +53,7 @@ framework.
 %files -n python3-pyzolib
 %doc
 %{python3_sitelib}/pyzolib
-%{python3_sitelib}/pyzolib-%{version}-py?.?.egg-info
+%{python3_sitelib}/pyzolib-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.3-19

@@ -74,7 +74,7 @@ rm -rf %{buildroot}%{python3_sitelib}/unicorn/lib
 %{_includedir}/unicorn/
 
 %files -n python3-unicorn
-%{python3_sitelib}/%{name}-%{version}%{rctag}-py?.?.egg-info/
+%{python3_sitelib}/%{name}-%{version}%{rctag}-py%{python3_version}.egg-info/
 %{python3_sitelib}/%{name}/
 
 %changelog

@@ -81,7 +81,7 @@ mv %{buildroot}%{_bindir}/{pwiz.py,pwiz}
 %doc README.rst html
 %license LICENSE
 %{python3_sitearch}/peewee.py*
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/playhouse/
 %{python3_sitearch}/__pycache__/*
 %{_bindir}/pwiz

@@ -115,7 +115,7 @@ PYTHON=%{__python} ./run_tests.sh -N -P
 %endif
 
 %files -n     %{python}-%{pypi_name}
-%{python_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python_sitelib}/%{pypi_name}
 %{_bindir}/%{pypi_name}
 %{_bindir}/%{pypi_name}-manager

@@ -40,7 +40,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %{_bindir}/git-pull-request
 %{python3_sitelib}/%{pkg_name}
-%{python3_sitelib}/%{pkg_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pkg_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

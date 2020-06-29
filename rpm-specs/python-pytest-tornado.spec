@@ -51,7 +51,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" PYTHONDONTWRITEBYTECODE=1 \
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

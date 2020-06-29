@@ -46,7 +46,7 @@ sed -i '1d' restshlib/restshlib.py
 %license LICENSE
 %{_bindir}/restsh
 %{python3_sitelib}/%{pypi_name}lib
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-15

@@ -83,7 +83,7 @@ pytest-%{python3_version} mne_bids
 %doc README.rst examples/README.txt
 %{_bindir}/mne_bids
 %{python3_sitelib}/mne_bids
-%{python3_sitelib}/*-py?.?.egg-info
+%{python3_sitelib}/*-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-2

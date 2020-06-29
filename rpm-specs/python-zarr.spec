@@ -84,7 +84,7 @@ rm -rf html/.{doctrees,buildinfo,_static/donotdelete}
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %doc html

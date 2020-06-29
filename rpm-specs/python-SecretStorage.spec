@@ -98,7 +98,7 @@ done
 %files -n python3-secretstorage
 %doc changelog README.rst
 %license LICENSE
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 %{python3_sitelib}/secretstorage/
 
 %files -n python3-secretstorage-doc

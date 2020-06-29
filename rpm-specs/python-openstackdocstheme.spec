@@ -72,7 +72,7 @@ rm -rf html/.{doctrees,buildinfo}
 %{_bindir}/docstheme-lang-display-name.py
 %{_bindir}/docstheme-build-pdf
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc doc/build/html

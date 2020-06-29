@@ -111,7 +111,7 @@ ln -s ./%{sname}-%{python3_version} %{buildroot}%{_bindir}/%{sname}
 %{_bindir}/%{sname}
 %{_bindir}/%{sname}-3*
 %{python3_sitelib}/%{sname}
-%{python3_sitelib}/pymod2pkg-%{version}-py?.?.egg-info
+%{python3_sitelib}/pymod2pkg-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

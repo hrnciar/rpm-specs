@@ -42,7 +42,7 @@ Requires:       python3-six
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/construct
-%{python3_sitelib}/construct-%{version}-py?.?.egg-info
+%{python3_sitelib}/construct-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.10.56-2

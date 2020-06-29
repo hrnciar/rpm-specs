@@ -73,7 +73,7 @@ sed -i -r 's/\b(test_convert_with_custom_writer|test_basic_conversion_from_file|
 %license LICENSE
 %doc README.md examples/
 %{python3_sitelib}/pypandoc
-%{python3_sitelib}/pypandoc-%{version}-py?.?.egg-info
+%{python3_sitelib}/pypandoc-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-2

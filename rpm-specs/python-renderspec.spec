@@ -160,7 +160,7 @@ PYTHON=python3 %{__python3} setup.py test
 %{_bindir}/renderspec-3
 %{_bindir}/renderspec-%{python3_version}
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %files -n python-%{pypi_name}-doc

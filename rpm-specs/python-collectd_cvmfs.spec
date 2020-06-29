@@ -51,7 +51,7 @@ rm -rf %{pypi_name}.egg-info
 # https://github.com/cvmfs/collectd-cvmfs/issues/13
 #%%license LICENSE
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{_prefix}/share/collectd/%{pypi_name}.db
 
 %changelog

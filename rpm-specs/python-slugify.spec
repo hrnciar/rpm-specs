@@ -42,7 +42,7 @@ A Python slugify application that handles Unicode.
 %license LICENSE
 %{_bindir}/%{pypi_name}
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/python_slugify-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_slugify-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.0-3

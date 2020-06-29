@@ -71,7 +71,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v tests/ \
 %doc README.rst
 %{_bindir}/aiozmq-proxy
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-5.20191223git4e6703c

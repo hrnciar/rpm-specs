@@ -46,7 +46,7 @@ make compile PYTHON=%{__python3}
 %files -n python3-%{pypi_name}
 %doc README.md
 %{python3_sitearch}/biscuits.cpython-%{python3_version_nodots}*.so
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-5

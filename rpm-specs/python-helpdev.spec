@@ -56,7 +56,7 @@ sed -i "s|import importlib_metadata|import importlib.metadata as importlib_metad
 %license LICENSE.rst
 %{_bindir}/helpdev
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.10-4

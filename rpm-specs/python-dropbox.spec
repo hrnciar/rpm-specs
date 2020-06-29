@@ -45,7 +45,7 @@ A Python library for Dropbox's HTTP-based Core and Datastore APIs.
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun May 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.2.0-1

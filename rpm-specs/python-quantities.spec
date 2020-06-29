@@ -58,7 +58,7 @@ cp %{SOURCE1} .
 
 %files -n python3-%{module_name}
 %doc CHANGES.txt license.rst
-%{python3_sitelib}/%{module_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{module_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{module_name}/
 
 

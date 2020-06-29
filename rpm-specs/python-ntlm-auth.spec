@@ -54,7 +54,7 @@ rm -rf %{pypi_name}.egg-info
 %doc CHANGES.md README.md
 %license LICENSE
 %{python3_sitelib}/%{library_name}
-%{python3_sitelib}/%{library_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{library_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-10

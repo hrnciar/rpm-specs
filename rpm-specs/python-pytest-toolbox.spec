@@ -44,7 +44,7 @@ rm -rf %{buildroot}%{python3_sitelib}/pytest_toolbox/__pycache__/*.cpython-%{pyt
 %files -n python3-%{pypi_name}
 %doc README.rst
 %{python3_sitelib}/pytest_toolbox/
-%{python3_sitelib}/pytest_toolbox-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_toolbox-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-4

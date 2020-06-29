@@ -57,7 +57,7 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 %files -n python3-%{pypi_name}
 %{python3_sitelib}/colour_runner
-%{python3_sitelib}/colour_runner-%{version}-py?.?.egg-info
+%{python3_sitelib}/colour_runner-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

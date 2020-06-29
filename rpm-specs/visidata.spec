@@ -82,7 +82,7 @@ chmod -x visidata/vdtui.py visidata/man/vd.1
 %doc README.md
 %license LICENSE.gpl3
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

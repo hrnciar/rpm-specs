@@ -99,7 +99,7 @@ cp %{SOURCE1} LICENSE
 %license LICENSE
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{pypi_name}.py
-%{python3_sitelib}/%{mod_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{mod_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-8

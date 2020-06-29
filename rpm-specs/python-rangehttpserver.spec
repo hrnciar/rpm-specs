@@ -57,7 +57,7 @@ PYTHONPATH=. pytest-3
 %license LICENSE
 %doc README
 %{python3_sitelib}/%{pretty_name}
-%{python3_sitelib}/rangehttpserver-%{version}-py?.?.egg-info
+%{python3_sitelib}/rangehttpserver-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-10

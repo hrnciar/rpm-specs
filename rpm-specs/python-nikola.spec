@@ -151,7 +151,7 @@ pytest
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/nikola
-%{python3_sitelib}/Nikola-%{version}-py?.?.egg-info
+%{python3_sitelib}/Nikola-%{version}-py%{python3_version}.egg-info
 
 
 

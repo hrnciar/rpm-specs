@@ -58,7 +58,7 @@ rm -f {test-,}requirements.txt
 %doc README.rst AUTHORS
 %license LICENSE
 %{python3_sitelib}/distroinfo
-%{python3_sitelib}/distroinfo-%{version}-py?.?.egg-info
+%{python3_sitelib}/distroinfo-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

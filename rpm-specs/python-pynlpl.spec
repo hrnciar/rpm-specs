@@ -91,7 +91,7 @@ rm %{pkg_name}/tests/{folia*,fql}.py
 %{_bindir}/pynlpl-sampler
 %{_bindir}/pynlpl-makefreqlist
 %{python3_sitelib}/%{pkg_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE

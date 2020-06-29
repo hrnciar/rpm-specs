@@ -59,7 +59,7 @@ done
 %doc help.html help_conf.html help_vna.html
 %{_bindir}/%{name}{,_vna}
 %{python3_sitearch}/%{name}
-%{python3_sitearch}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

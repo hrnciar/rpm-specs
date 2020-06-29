@@ -65,7 +65,7 @@ rm -rf html/.{doctrees,buildinfo}
 %doc README.rst
 %license LICENSE
 %{_bindir}/py3smi
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}/
 
 %files -n python3-%{pypi_name}-doc

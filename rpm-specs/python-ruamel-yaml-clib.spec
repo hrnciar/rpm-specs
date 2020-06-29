@@ -39,7 +39,7 @@ It is the C based reader/scanner and emitter for ruamel.yaml.
 %license LICENSE
 %doc README.rst
 %{python3_sitearch}/_ruamel_yaml.cpython-*
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.2-3

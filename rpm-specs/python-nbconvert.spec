@@ -123,7 +123,7 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 %license LICENSE
 %doc docs/README.md
 %{_bindir}/jupyter-nbconvert
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}/
 
 %if %{with doc}

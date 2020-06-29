@@ -59,7 +59,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/sphinx_click/
-%{python3_sitelib}/sphinx_click-%{version}-py?.?.egg-info/
+%{python3_sitelib}/sphinx_click-%{version}-py%{python3_version}.egg-info/
 
 %files -n python-%{pypi_name}-doc
 %doc html

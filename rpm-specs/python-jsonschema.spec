@@ -76,7 +76,7 @@ PYTHONPATH=$(pwd) trial-3 %{pypi_name}
 %{_bindir}/jsonschema
 
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 
 %changelog

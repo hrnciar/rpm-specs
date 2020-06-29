@@ -64,7 +64,7 @@ nosetests-3 -v
 %license LICENSE
 %{_bindir}/mtg
 %{python3_sitelib}/mtglib
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.1-15

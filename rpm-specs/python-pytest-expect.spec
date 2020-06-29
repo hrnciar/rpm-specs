@@ -50,7 +50,7 @@ cp -p %{SOURCE1} .
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/pytest_expect
-%{python3_sitelib}/pytest_expect-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_expect-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

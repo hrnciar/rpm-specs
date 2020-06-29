@@ -54,7 +54,7 @@ LANG=C.utf-8 nosetests-%{python3_version} -v
 %license COPYING
 %doc NEWS README
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/python_%{srcname}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/python_%{srcname}-%{version}-py%{python3_version}.egg-info/
 
 
 %changelog

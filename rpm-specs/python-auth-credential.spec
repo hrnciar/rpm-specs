@@ -59,7 +59,7 @@ rm -fr $RPM_BUILD_ROOT
 %files -n python3-auth-credential
 %doc LICENSE README.rst CHANGES
 %{python3_sitelib}/auth/
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-23

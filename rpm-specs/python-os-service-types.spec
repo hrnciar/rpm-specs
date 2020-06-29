@@ -106,7 +106,7 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %license LICENSE
 %doc README.rst doc/source/readme.rst
 %{pyver_sitelib}/%{module_name}
-%{pyver_sitelib}/%{module_name}-%{upstream_version}-py?.?.egg-info
+%{pyver_sitelib}/%{module_name}-%{upstream_version}-py%{python3_version}.egg-info
 
 %if 0%{?with_doc}
 %files -n python-%{pypi_name}-doc

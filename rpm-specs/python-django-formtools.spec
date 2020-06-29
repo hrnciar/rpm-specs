@@ -77,7 +77,7 @@ rm -rf html/.{doctrees,buildinfo}
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/formtools
-%{python3_sitelib}/django_formtools-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_formtools-%{version}-py%{python3_version}.egg-info
 
 %files -n python3-%{pypi_name}-doc
 %doc html

@@ -49,7 +49,7 @@ printable width of a string on a Terminal.
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Fri Jun 19 2020 Avram Lubkin <aviso@rockhopper.net> - 0.2.4-1

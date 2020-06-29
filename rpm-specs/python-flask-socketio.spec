@@ -58,7 +58,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/flask_socketio
-%{python3_sitelib}/%{egg_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{egg_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2.1-4

@@ -102,8 +102,8 @@ popd
 %files -n python3-%{pypi_name}
 %doc README.txt
 %{python3_sitelib}/xstatic/pkg/roboto_fontface
-%{python3_sitelib}/XStatic_roboto_fontface-%{version}-py?.?.egg-info
-%{python3_sitelib}/XStatic_roboto_fontface-%{version}-py?.?-nspkg.pth
+%{python3_sitelib}/XStatic_roboto_fontface-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/XStatic_roboto_fontface-%{version}-py%{python3_version}-nspkg.pth
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0.0-15

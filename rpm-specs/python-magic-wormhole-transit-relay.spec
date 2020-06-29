@@ -63,7 +63,7 @@ rm -rf %{pypi_name}.egg-info
 
 %{python3_sitelib}/twisted/plugins/*
 %{python3_sitelib}/wormhole_transit_relay/
-%{python3_sitelib}/magic_wormhole_transit_relay-%{version}-py?.?.egg-info
+%{python3_sitelib}/magic_wormhole_transit_relay-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

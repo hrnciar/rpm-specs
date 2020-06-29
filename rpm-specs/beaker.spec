@@ -100,14 +100,14 @@ find %{buildroot} -name '__pycache__' | xargs rm -rf
 %{python3_sitelib}/bkr/__init__.py*
 %{python3_sitelib}/bkr/common/
 %{python3_sitelib}/bkr/log.py*
-%{python3_sitelib}/%{name}_common-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{name}_common-%{version}-py%{python3_version}.egg-info/
 
 %files client
 %dir %{_sysconfdir}/%{name}
 %doc Client/client.conf.example
 %{python3_sitelib}/bkr/client/
-%{python3_sitelib}/%{name}_client-%{version}-py?.?-nspkg.pth
-%{python3_sitelib}/%{name}_client-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{name}_client-%{version}-py%{python3_version}-nspkg.pth
+%{python3_sitelib}/%{name}_client-%{version}-py%{python3_version}.egg-info/
 %{_bindir}/%{name}-wizard
 %{_bindir}/bkr
 %if 0%{with_docs}

@@ -68,7 +68,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE.txt
 %doc README.md
 %{python3_sitelib}/spyder_kernels
-%{python3_sitelib}/spyder_kernels-%{version}-py?.?.egg-info
+%{python3_sitelib}/spyder_kernels-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.9.1-2

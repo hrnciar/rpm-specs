@@ -63,7 +63,7 @@ find docs/_build/ -name ".buildinfo" -execdir rm -fv '{}' \;
 %files -n python3-%{srcname}
 %{_bindir}/mllp_send
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %license LICENSE
 
 %files doc

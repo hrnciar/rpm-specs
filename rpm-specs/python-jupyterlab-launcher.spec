@@ -45,7 +45,7 @@ This package is used to launch an application built using JupyterLab.
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/jupyterlab_launcher
-%{python3_sitelib}/jupyterlab_launcher-%{version}-py?.?.egg-info
+%{python3_sitelib}/jupyterlab_launcher-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.1-2

@@ -50,7 +50,7 @@ rm -rf %{srcname}.egg-info
 %exclude %{python3_sitelib}/tests
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{srcname}.py
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.2-6

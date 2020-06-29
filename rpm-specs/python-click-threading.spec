@@ -45,7 +45,7 @@ Multithreaded support for python 3 click (CLI creation kit) applications.
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{pyname}
-%{python3_sitelib}/%{pyname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pyname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.4-12

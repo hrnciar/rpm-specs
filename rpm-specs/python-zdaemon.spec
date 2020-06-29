@@ -52,7 +52,7 @@ export PYTHONPATH="$PYTHONPATH:%{buildroot}%{python3_sitelib}"
 %files -n python3-zdaemon
 %doc CHANGES.rst README.rst
 %{python3_sitelib}/zdaemon
-%{python3_sitelib}/zdaemon-%{version}-py?.?.egg-info
+%{python3_sitelib}/zdaemon-%{version}-py%{python3_version}.egg-info
 %{_bindir}/zdaemon
 
 

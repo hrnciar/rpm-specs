@@ -54,7 +54,7 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitearch}/__pycache__/%{pypi_name}*
 %{python3_sitearch}/%{pypi_name}.py*
 %{python3_sitearch}/_%{pypi_name}*.so
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-13

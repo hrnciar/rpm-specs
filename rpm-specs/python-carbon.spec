@@ -187,7 +187,7 @@ PYTHONPATH=lib trial-3 carbon
 %doc conf/ examples/ distro/redhat/init.d/
 
 %{python3_sitelib}/carbon
-%{python3_sitelib}/carbon-*-py?.?.egg-info
+%{python3_sitelib}/carbon-*-py%{python3_version}.egg-info
 %{python3_sitelib}/twisted/plugins/*
 
 %dir %{_sysconfdir}/carbon

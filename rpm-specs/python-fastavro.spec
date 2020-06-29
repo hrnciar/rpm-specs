@@ -87,7 +87,7 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} pytest-3 tests
 
 %files -n python3-%{srcname}
 %license NOTICE.txt
-%{python3_sitearch}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{srcname}/
 %{_bindir}/%{srcname}
 %{_mandir}/man1/%{srcname}.*

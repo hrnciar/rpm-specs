@@ -50,7 +50,7 @@ nosetests-3 -v
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/numpydoc
-%{python3_sitelib}/numpydoc-%{version}-py?.?.egg-info
+%{python3_sitelib}/numpydoc-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

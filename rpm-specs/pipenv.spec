@@ -413,7 +413,7 @@ rm -rf check_pythonpath check_path
 %{_bindir}/pipenv
 %{_bindir}/pipenv-resolver
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %files -n %{name}-doc
 %doc html

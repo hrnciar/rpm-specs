@@ -68,8 +68,8 @@ mv $RPM_BUILD_ROOT/%{_lib}/pkgconfig $RPM_BUILD_ROOT%{_libdir}
 # Remove a couple things so they don't get picked up
 rm -f $RPM_BUILD_ROOT/%{_lib}/libcap-ng.la
 rm -f $RPM_BUILD_ROOT/%{_lib}/libcap-ng.a
-rm -f $RPM_BUILD_ROOT/%{_libdir}/python?.?/site-packages/_capng.a
-rm -f $RPM_BUILD_ROOT/%{_libdir}/python?.?/site-packages/_capng.la
+rm -f $RPM_BUILD_ROOT/%{_libdir}/python%{python3_version}/site-packages/_capng.a
+rm -f $RPM_BUILD_ROOT/%{_libdir}/python%{python3_version}/site-packages/_capng.la
 
 %check
 make check

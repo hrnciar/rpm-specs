@@ -60,7 +60,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/pixmaps/*
 %{_mandir}/man1/%{name}.1*
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{_datadir}/metainfo/com.github.persepolisdm.persepolis.appdata.xml
 
 

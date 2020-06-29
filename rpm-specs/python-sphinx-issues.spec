@@ -51,7 +51,7 @@ rm -rf %{srcname}.egg-info
 %doc README.rst
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/sphinx_issues.py
-%{python3_sitelib}/sphinx_issues-%{version}-py?.?.egg-info
+%{python3_sitelib}/sphinx_issues-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

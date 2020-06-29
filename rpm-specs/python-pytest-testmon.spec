@@ -49,7 +49,7 @@ PYTHONPATH=$PWD py.test-3
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/testmon
-%{python3_sitelib}/pytest_testmon-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_testmon-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.19-3

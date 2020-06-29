@@ -56,7 +56,7 @@ pytest-3 -v
 %doc README.rst AUTHORS.txt CHANGES.txt
 %license LICENSE
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

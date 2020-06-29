@@ -62,7 +62,7 @@ rm -rf html/{.doctrees,.buildinfo,*.inv}
 %doc README.rst html
 %license LICENSE
 %{python3_sitelib}/python_utils
-%{python3_sitelib}/python_utils-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_utils-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.4.0-1

@@ -92,7 +92,7 @@ rm -rf html/.{doctrees,buildinfo}
 
 %{python3_sitelib}/twisted/plugins/*
 %{python3_sitelib}/wormhole_mailbox_server/
-%{python3_sitelib}/magic_wormhole_mailbox_server-%{version}-py?.?.egg-info
+%{python3_sitelib}/magic_wormhole_mailbox_server-%{version}-py%{python3_version}.egg-info
 
 
 %files -n python-%{pypi_name}-doc

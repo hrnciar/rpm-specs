@@ -53,7 +53,7 @@ rm -fr %{buildroot}%{python3_sitelib}/tests
 %license LICENSE
 %{_bindir}/%{project}
 %{python3_sitelib}/%{module}
-%{python3_sitelib}/%{name_with_underscore}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name_with_underscore}-%{version}-py%{python3_version}.egg-info
 %{_mandir}/man1/transtats.1.gz
 %{_datadir}/bash-completion/completions/transtats.bash
 

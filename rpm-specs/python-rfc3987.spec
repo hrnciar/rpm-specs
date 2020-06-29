@@ -52,7 +52,7 @@ sed -i -e '/^#!\//, 1d' %{buildroot}%{python3_sitelib}/rfc3987.py
 %license COPYING.txt
 %doc README.txt
 %{python3_sitelib}/%{pypi_name}.py
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/%{pypi_name}.*
 
 

@@ -54,7 +54,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/%{srcname}.py
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 
 
 %changelog

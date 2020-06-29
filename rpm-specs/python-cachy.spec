@@ -40,7 +40,7 @@ Cachy provides a simple yet effective caching library.
 %doc README.rst
 %license 
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %exclude %{python3_sitelib}/tests/
 
 %changelog

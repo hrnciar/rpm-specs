@@ -187,7 +187,7 @@ PYTHONPATH=. pytest-3 -v tests
 %license COPYING
 %doc README.md
 %{python3_sitelib}/patoolib
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

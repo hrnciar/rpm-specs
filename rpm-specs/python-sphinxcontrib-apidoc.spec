@@ -67,7 +67,7 @@ rm -rf %{pypi_name}.egg-info
 %doc README.rst
 %{python3_sitelib}/sphinxcontrib_apidoc*nspkg.pth
 %{python3_sitelib}/sphinxcontrib/apidoc
-%{python3_sitelib}/sphinxcontrib_apidoc-%{version}-py?.?.egg-info
+%{python3_sitelib}/sphinxcontrib_apidoc-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-15

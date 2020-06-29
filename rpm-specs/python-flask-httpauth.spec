@@ -116,7 +116,7 @@ rm -rf build/sphinx/html/.{doctrees,buildinfo}
 %doc README.md
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/flask_httpauth.py
-%{python3_sitelib}/Flask_HTTPAuth-%{version}-py?.?.egg-info
+%{python3_sitelib}/Flask_HTTPAuth-%{version}-py%{python3_version}.egg-info
 %endif # with_python3
 
 %changelog

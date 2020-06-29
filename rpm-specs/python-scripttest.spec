@@ -53,7 +53,7 @@ sphinx-build -b html docs/ docs/html
 %doc docs/html
 %license docs/license.rst
 %{python3_sitelib}/scripttest.py
-%{python3_sitelib}/__pycache__/scripttest.cpython-??*
+%{python3_sitelib}/__pycache__/scripttest.cpython-%{python3_version_nodots}*
 %{python3_sitelib}/scripttest*.egg-info/
 
 

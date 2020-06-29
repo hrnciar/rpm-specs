@@ -62,7 +62,7 @@ This package provides Python 3 build of %{pypi_name}.
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/django_pyscss
-%{python3_sitelib}/django_pyscss-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_pyscss-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.2-16

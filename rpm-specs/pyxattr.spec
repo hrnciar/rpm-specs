@@ -45,7 +45,7 @@ export PYTHONPATH=%{buildroot}%{python3_sitearch}:$PYTHONPATH
 python3 -m pytest test
 
 %files -n python3-%{name}
-%{python3_sitearch}/xattr.cpython-??*
+%{python3_sitearch}/xattr.cpython-%{python3_version_nodots}*
 %{python3_sitearch}/*egg-info
 %license COPYING
 %doc NEWS README.md

@@ -45,7 +45,7 @@ sed -i '/^#! \/usr\/bin\/env python$/d' pysol_cards/*.py
 %license LICENSE
 %doc README.rst doc/source/readme.rst
 %{python3_sitelib}/pysol_cards
-%{python3_sitelib}/pysol_cards-%{version}-py?.?.egg-info
+%{python3_sitelib}/pysol_cards-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun Jun 14 2020 Shlomi Fish <shlomif@shlomifish.org> 0.10.1-1

@@ -36,7 +36,7 @@ GnuPG bindings for python. This uses the gpg command.
 %license LICENSE.txt
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/gnupg.py
-%{python3_sitelib}/python_gnupg-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_gnupg-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.4-7

@@ -102,7 +102,7 @@ py.test-3 -v tests
 %doc README.md README.Fedora.md
 %{_bindir}/pew
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

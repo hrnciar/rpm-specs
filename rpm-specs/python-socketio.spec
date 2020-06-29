@@ -66,7 +66,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/socketio
-%{python3_sitelib}/python_socketio-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_socketio-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.4.0-4

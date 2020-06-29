@@ -45,7 +45,7 @@ This package provides Python 3 build of %{pypi_name}.
 
 %files -n python3-%{pypi_name}
 %{python3_sitelib}/threadedcomments
-%{python3_sitelib}/django_threadedcomments-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_threadedcomments-%{version}-py%{python3_version}.egg-info
 %license LICENSE.txt
 %doc README.rst LICENSE.txt CHANGELOG.rst
 

@@ -43,7 +43,7 @@ sed -i '1d' %{name}/__main__.py
 %doc README.rst ChangeLog.txt
 %{_bindir}/pias
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-13

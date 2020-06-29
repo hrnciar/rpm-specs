@@ -80,7 +80,7 @@ rm -rf html/.{doctrees,buildinfo}
 %exclude %{python3_sitelib}/jaraco/__pycache__/__init__*
 %{python3_sitelib}/jaraco/functools*
 %{python3_sitelib}/jaraco/__pycache__/functools*
-%{python3_sitelib}/jaraco.functools-%{version}-py?.?.egg-info
+%{python3_sitelib}/jaraco.functools-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pkg_name}-doc

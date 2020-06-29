@@ -77,7 +77,7 @@ py.test-3 tests || :
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/terminaltables
-%{python3_sitelib}/terminaltables-%{version}-py?.?.egg-info/
+%{python3_sitelib}/terminaltables-%{version}-py%{python3_version}.egg-info/
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.0-18

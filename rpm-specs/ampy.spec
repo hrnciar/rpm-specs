@@ -59,7 +59,7 @@ sed -i '1d' $(grep -lr '#!/usr/')
 %license LICENSE
 %{_bindir}/%{name}
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/adafruit_ampy-%{version}-py?.?.egg-info
+%{python3_sitelib}/adafruit_ampy-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

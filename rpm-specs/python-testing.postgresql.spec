@@ -62,7 +62,7 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %files -n python3-%{pypi_name}
 %doc README.rst LICENSE
 %{python3_sitelib}/testing
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

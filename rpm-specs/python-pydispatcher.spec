@@ -58,7 +58,7 @@ rm -rf %{pypi_name}.egg-info
 %license license.txt
 %doc PKG-INFO
 %{python3_sitelib}/pydispatch
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -68,7 +68,7 @@ rm -rf %{python3_sitearch}/acouchbase/tests
 %{python3_sitearch}/%{pypi_name}
 %{python3_sitearch}/acouchbase
 %{python3_sitearch}/txcouchbase
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %doc README.rst html examples

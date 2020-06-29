@@ -62,7 +62,7 @@ env PATH=%{buildroot}%{_bindir}:$PATH \
 %license LICENSE.md
 %{_bindir}/%{name}
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

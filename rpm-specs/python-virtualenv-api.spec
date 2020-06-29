@@ -67,7 +67,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/virtualenvapi
-%{python3_sitelib}/%{underscore_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{underscore_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.16-12

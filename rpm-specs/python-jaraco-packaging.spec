@@ -98,7 +98,7 @@ rm -rf html/.{doctrees,buildinfo}
 %doc README.rst
 %{_bindir}/dependency-tree
 %{python3_sitelib}/jaraco/packaging
-%{python3_sitelib}/jaraco.packaging-%{version}-py?.?.egg-info
+%{python3_sitelib}/jaraco.packaging-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pkg_name}-doc

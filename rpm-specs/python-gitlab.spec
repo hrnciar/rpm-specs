@@ -61,7 +61,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license COPYING
 %{_bindir}/gitlab
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/python_gitlab-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_gitlab-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{pypi_name}-doc
 %license COPYING

@@ -82,7 +82,7 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python3-django-babel
 %doc README.rst
 %{python3_sitelib}/django_babel/
-%{python3_sitelib}/django_babel-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_babel-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-12

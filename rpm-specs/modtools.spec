@@ -33,7 +33,7 @@ rm -rf %{buildroot}/%{python3_sitelib}/tests
 %doc README.md
 %{_bindir}/modtools
 %{python3_sitelib}/modularity/
-%{python3_sitelib}/modtools-%{version}-py?.?.egg-info
+%{python3_sitelib}/modtools-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.1-13

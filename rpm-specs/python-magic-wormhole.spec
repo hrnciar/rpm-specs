@@ -117,7 +117,7 @@ rm -rf html/.{doctrees,buildinfo}
 %doc README.md
 
 %{python3_sitelib}/wormhole/
-%{python3_sitelib}/magic_wormhole-%{version}-py?.?.egg-info
+%{python3_sitelib}/magic_wormhole-%{version}-py%{python3_version}.egg-info
 
 
 %files -n python-%{pypi_name}-doc

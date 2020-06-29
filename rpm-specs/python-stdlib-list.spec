@@ -57,7 +57,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/stdlib_list
-%{python3_sitelib}/stdlib_list-%{version}-py?.?.egg-info
+%{python3_sitelib}/stdlib_list-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sat Jun 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.0-5

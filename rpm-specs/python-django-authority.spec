@@ -60,7 +60,7 @@ rm -rf %{buildroot}/%{python3_sitelib}/example
 %license LICENSE
 %doc AUTHORS README.rst docs/ example/
 %{python3_sitelib}/authority/
-%{python3_sitelib}/django_authority-%{version}-py?.?.egg-info
+%{python3_sitelib}/django_authority-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11-14

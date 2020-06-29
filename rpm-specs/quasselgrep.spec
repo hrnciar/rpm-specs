@@ -59,7 +59,7 @@ sed "/env python/d" -i quasselgrep/quasselgrep.py
 %doc README.md
 %{_bindir}/quasselgrep
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-0.10.20170411git502c88b

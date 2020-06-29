@@ -52,7 +52,7 @@ python3 -m pytest -v -r a
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

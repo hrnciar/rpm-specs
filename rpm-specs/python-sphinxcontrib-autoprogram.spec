@@ -58,8 +58,8 @@ cp %SOURCE1 .
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/sphinxcontrib
-%{python3_sitelib}/sphinxcontrib_autoprogram-%{version}-py?.?-nspkg.pth
-%{python3_sitelib}/sphinxcontrib_autoprogram-%{version}-py?.?.egg-info
+%{python3_sitelib}/sphinxcontrib_autoprogram-%{version}-py%{python3_version}-nspkg.pth
+%{python3_sitelib}/sphinxcontrib_autoprogram-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-11

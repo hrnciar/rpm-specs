@@ -54,7 +54,7 @@ sed -i '1d' singledispatch_helpers.py
 
 %files -n python3-%{pypi_name}
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}.py*
 %{python3_sitelib}/%{pypi_name}_helpers.py*
 %{python3_sitelib}/__pycache__/*

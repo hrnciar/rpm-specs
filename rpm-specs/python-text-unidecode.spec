@@ -36,7 +36,7 @@ text-unidecode is the most basic port of the Text::Unidecode Perl library.
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/text_unidecode/
-%{python3_sitelib}/text_unidecode-%{version}-py?.?.egg-info
+%{python3_sitelib}/text_unidecode-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3-3

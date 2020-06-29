@@ -42,7 +42,7 @@ rm -rf %{pypi_name}.egg-info
 %files -n python3-%{pypi_name}
 %doc README.rst
 %{python3_sitelib}/nose_exclude.py*
-%{python3_sitelib}/nose_exclude-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nose_exclude-%{version}-py%{python3_version}.egg-info/
 %{python3_sitelib}/__pycache__/nose_exclude*
 
 %changelog

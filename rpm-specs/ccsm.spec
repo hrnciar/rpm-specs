@@ -66,7 +66,7 @@ desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/ccsm.desktop
 %{_datadir}/compiz/icons/hicolor/{22x22/{categories,devices,mimetypes},scalable/{apps,categories}}/*.{png,svg}
 %dir %{python3_sitelib}/ccm
 %{python3_sitelib}/ccm/*
-%{python3_sitelib}/ccsm-%{version}-py?.?.egg-info
+%{python3_sitelib}/ccsm-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

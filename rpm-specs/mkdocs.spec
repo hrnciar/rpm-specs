@@ -143,7 +143,7 @@ PYTHONPATH=$PWD coverage run --source=mkdocs --omit 'mkdocs/tests/*' -m unittest
 %license LICENSE
 %{_bindir}/*
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %files docs
 %doc site/*

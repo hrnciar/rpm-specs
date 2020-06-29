@@ -48,7 +48,7 @@ cp docs/dist/man/man1/*.1 %{buildroot}%{_mandir}/man1/
 cp docs/dist/man/man7/*.7 %{buildroot}%{_mandir}/man7/
 
 %files
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{name}
 %{_bindir}/%{name}
 %{_bindir}/%{name}-*

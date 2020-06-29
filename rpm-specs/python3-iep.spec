@@ -69,7 +69,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/iep.desktop
 %license iep/license.txt
 %{_bindir}/iep
 %{python3_sitelib}/iep
-%{python3_sitelib}/iep-%{version}-py?.?.egg-info
+%{python3_sitelib}/iep-%{version}-py%{python3_version}.egg-info
 %{_datadir}/icons/hicolor/*/apps/iep.png
 %{_datadir}/appdata/iep.appdata.xml
 %{_datadir}/applications/iep.desktop

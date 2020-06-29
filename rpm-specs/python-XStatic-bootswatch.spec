@@ -158,8 +158,8 @@ done
 %doc README.txt
 %license LICENSE
 %{python3_sitelib}/xstatic/pkg/bootswatch
-%{python3_sitelib}/XStatic_bootswatch-%{version}-py?.?.egg-info
-%{python3_sitelib}/XStatic_bootswatch-%{version}-py?.?-nspkg.pth
+%{python3_sitelib}/XStatic_bootswatch-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/XStatic_bootswatch-%{version}-py%{python3_version}-nspkg.pth
 %endif
 
 %changelog

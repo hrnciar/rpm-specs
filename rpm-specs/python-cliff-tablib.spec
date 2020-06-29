@@ -60,7 +60,7 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python3-%{pypi_name}
 %doc html 
 %{python3_sitelib}/clifftablib
-%{python3_sitelib}/cliff_tablib-%{version}-py?.?.egg-info
+%{python3_sitelib}/cliff_tablib-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

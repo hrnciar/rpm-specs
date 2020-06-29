@@ -74,7 +74,7 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} \
 %license LICENSE
 %doc README.md
 %{python3_sitearch}/pillowfight
-%{python3_sitearch}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

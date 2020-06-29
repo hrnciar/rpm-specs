@@ -65,7 +65,7 @@ contract in unit test compatible test cases easy and straight forward.
 %files -n python3-%{pypi_name}
 %doc README GOALS NEWS Apache-2.0 BSD COPYING
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-18

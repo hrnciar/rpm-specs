@@ -76,7 +76,7 @@ popd
 %{python3_sitelib}/%{srcname}/checker/__pycache__/*.py[co]
 %{python3_sitelib}/%{srcname}/tokenize/*.py
 %{python3_sitelib}/%{srcname}/tokenize/__pycache__/*.py[co]
-%{python3_sitelib}/py%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/py%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

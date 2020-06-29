@@ -56,7 +56,7 @@ nosetests-%{python3_version} -v tests
 %{_bindir}/ipmitool.py
 %{python3_sitelib}/pyipmi
 %{python3_sitelib}/tests
-%{python3_sitelib}/*-py?.?.egg-info
+%{python3_sitelib}/*-py%{python3_version}.egg-info
 
 %changelog
 * Tue Jun 16 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.4.2-4

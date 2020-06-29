@@ -49,7 +49,7 @@ py.test-%{python3_version} tests
 %{python3_sitelib}/configobj.py
 %{python3_sitelib}/validate.py
 %{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/configobj-%{version}-py?.?.egg-info
+%{python3_sitelib}/configobj-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.6-21

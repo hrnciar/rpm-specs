@@ -54,7 +54,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE.md
 %doc README.md
 %{python3_sitelib}/pymdownx
-%{python3_sitelib}/pymdown_extensions-%{version}-py?.?.egg-info
+%{python3_sitelib}/pymdown_extensions-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.0-2

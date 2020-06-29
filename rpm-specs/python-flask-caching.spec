@@ -63,7 +63,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE docs/license.rst
 %doc README.md
 %{python3_sitelib}/flask_caching
-%{python3_sitelib}/Flask_Caching-%{version}-py?.?.egg-info
+%{python3_sitelib}/Flask_Caching-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %doc html

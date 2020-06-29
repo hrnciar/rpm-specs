@@ -75,7 +75,7 @@ popd
 %doc README.rst
 %license LICENSE
 %{python3_sitearch}/%{sname}
-%{python3_sitearch}/%{sname}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{sname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.1-2

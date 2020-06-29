@@ -168,7 +168,7 @@ popd && mv %{buildroot}/%{name}.lang .
 %files common -f %{name}.lang
 %doc CHANGELOG.md LICENSE README.md
 
-%{python3_sitelib}/%{name}-%{version}-py?.?.egg-info/
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info/
 %dir %{python3_sitelib}/%{name}
 %{python3_sitelib}/%{name}/__pycache__
 %{python3_sitelib}/%{name}/*.py*

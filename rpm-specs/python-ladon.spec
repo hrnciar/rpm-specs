@@ -70,7 +70,7 @@ cp -p %{SOURCE1} LICENSE
 %doc PKG-INFO README.rst examples
 %license LICENSE
 %{python3_sitelib}/ladon
-%{python3_sitelib}/ladon-%{version}-py?.?.egg-info
+%{python3_sitelib}/ladon-%{version}-py%{python3_version}.egg-info
 %{_bindir}/ladon-%{python3_version}-ctl
 %{_bindir}/ladon-ctl
 

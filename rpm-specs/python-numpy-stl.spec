@@ -81,7 +81,7 @@ rm -rf html/.{doctrees,buildinfo}
 %{_bindir}/stl2bin
 %{_bindir}/stl2ascii
 %{python3_sitearch}/stl
-%{python3_sitearch}/numpy_stl-%{version}-py?.?.egg-info
+%{python3_sitearch}/numpy_stl-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %doc html

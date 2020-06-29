@@ -46,7 +46,7 @@ rm -rf %{buildroot}%{python3_sitelib}/__pycache__/pytest_isort.cpython-%{python3
 %doc README.rst
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/pytest_isort.py
-%{python3_sitelib}/pytest_isort-%{version}-py?.?.egg-info
+%{python3_sitelib}/pytest_isort-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-4

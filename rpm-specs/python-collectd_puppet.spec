@@ -49,7 +49,7 @@ rm -r src/%{module_name}.egg-info
 %doc README.rst NEWS.rst
 %{_datadir}/collectd/puppet_types.db
 %{python3_sitelib}/%{module_name}
-%{python3_sitelib}/%{module_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{module_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-7

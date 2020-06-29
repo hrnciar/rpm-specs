@@ -184,7 +184,7 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 %files -n python3-%{name}
 %license LICENSE.txt
 %{python3_sitelib}/geographiclib/
-%{python3_sitelib}/geographiclib-1.50-py?.?.egg-info
+%{python3_sitelib}/geographiclib-1.50-py%{python3_version}.egg-info
 
 %files -n octave-%{name}
 %license LICENSE.txt

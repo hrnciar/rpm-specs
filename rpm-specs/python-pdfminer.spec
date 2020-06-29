@@ -117,7 +117,7 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} \
 %{_bindir}/latin2ascii
 %{_bindir}/latin2ascii.py
 %{python3_sitelib}/pdfminer
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %doc docs/*
 
 %changelog

@@ -85,7 +85,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %files
 %license LICENSE
 %doc README.asciidoc doc/changelog.asciidoc qutebrowser/html/doc
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{srcname}
 %{_bindir}/%{srcname}
 %{_datadir}/applications/org.%{srcname}.%{srcname}.desktop

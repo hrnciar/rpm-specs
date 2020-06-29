@@ -124,7 +124,7 @@ rm -f  %{buildroot}/%{_prefix}/LICENSE.txt
 %license LICENSE.txt
 %doc README.md
 %{python3_sitearch}/confluent_kafka
-%{python3_sitearch}/confluent_kafka-%{version}-py?.?.egg-info
+%{python3_sitearch}/confluent_kafka-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

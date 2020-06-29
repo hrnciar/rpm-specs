@@ -71,7 +71,7 @@ nosetests-%{python3_version} --exclude="geoplot" -v tests
 %license LICENSE.md 
 %doc README.md CONFIGURATION.md paper.bib paper.md QuickStart.ipynb
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Thu Jun 04 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.4.2-5

@@ -264,7 +264,7 @@ desktop-file-install                                    \
 %license nemo-audio-tab/COPYING.GPL3
 %{_datadir}/nemo-python/extensions/nemo-audio-tab.py
 %{_datadir}/nemo-audio-tab/nemo-audio-tab.glade
-%{python3_sitelib}/nemo_audio_tab-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nemo_audio_tab-%{version}-py%{python3_version}.egg-info/
 
 
 %files -n nemo-pastebin
@@ -273,7 +273,7 @@ desktop-file-install                                    \
 %license nemo-pastebin/COPYING
 %{_bindir}/nemo-pastebin-configurator
 %{_datadir}/nemo-python/extensions/nemo-pastebin.py
-%{python3_sitelib}/nemo_pastebin-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nemo_pastebin-%{version}-py%{python3_version}.egg-info/
 %{_datadir}/glib-2.0/schemas/nemo-pastebin.gschema.xml
 %{_datadir}/nemo-pastebin/
 %{_datadir}/icons/hicolor/*/apps/nemo-pastebin.*
@@ -301,7 +301,7 @@ desktop-file-install                                    \
 %{_datadir}/nemo-python/extensions/nemo_terminal.py
 %{_datadir}/nemo-terminal/
 %{_datadir}/glib-2.0/schemas/org.nemo.extensions.nemo-terminal.gschema.xml
-%{python3_sitelib}/nemo_terminal-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nemo_terminal-%{version}-py%{python3_version}.egg-info/
 
 %files -n nemo-preview -f nemo-preview.lang
 %doc nemo-preview/README
@@ -315,7 +315,7 @@ desktop-file-install                                    \
 %files -n nemo-emblems
 %license nemo-emblems/COPYING.GPL3
 %{_datadir}/nemo-python/extensions/nemo-emblems.py
-%{python3_sitelib}/nemo_emblems-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nemo_emblems-%{version}-py%{python3_version}.egg-info/
 
 %files -n nemo-image-converter
 %doc nemo-image-converter/README
@@ -328,7 +328,7 @@ desktop-file-install                                    \
 %{_datadir}/nemo-python/extensions/nemo-compare.py
 %{_datadir}/nemo-compare/nemo-compare-preferences.py
 %{_datadir}/nemo-compare/utils.py*
-%{python3_sitelib}/nemo_compare-%{version}-py?.?.egg-info/
+%{python3_sitelib}/nemo_compare-%{version}-py%{python3_version}.egg-info/
 
 %files -n nemo-seahorse
 %doc nemo-seahorse/{AUTHORS,COPYING,README,NEWS,ChangeLog}

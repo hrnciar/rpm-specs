@@ -145,16 +145,16 @@ popd
 %doc README.markdown src/core/README.txt
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?-*.pth
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}-*.pth
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %exclude %{python3_sitelib}/%{pypi_name}/twisted
 
 %files -n python%{python3_pkgversion}-%{pypi_name}-twisted
 %doc README.markdown src/twisted/README.txt
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}/twisted
-%{python3_sitelib}/%{pypi_name}.twisted-%{version}-py?.?-*.pth
-%{python3_sitelib}/%{pypi_name}.twisted-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}.twisted-%{version}-py%{python3_version}-*.pth
+%{python3_sitelib}/%{pypi_name}.twisted-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -166,7 +166,7 @@ py.test-3 -v test
 %{_bindir}/ansible-runner-%{python3_version}
 %{python3_sitelib}/ansible_runner
 %{python3_sitelib}/test
-%{python3_sitelib}/ansible_runner-%{version}-py?.?.egg-info
+%{python3_sitelib}/ansible_runner-%{version}-py%{python3_version}.egg-info
 %endif
 %{_bindir}/ansible-runner
 

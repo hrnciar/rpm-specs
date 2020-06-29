@@ -55,7 +55,7 @@ BuildRequires:	python3-behave
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{pname}
-%{python3_sitelib}/python_%{pname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/python_%{pname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.5-22

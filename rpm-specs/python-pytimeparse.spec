@@ -107,7 +107,7 @@ find . -name '*.py' -exec sed -i '1 { /^#!/ d }' {} \+
 %license LICENSE.rst
 %doc README.rst
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

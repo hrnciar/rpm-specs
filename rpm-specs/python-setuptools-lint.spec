@@ -43,7 +43,7 @@ This package expose pylint as a lint command into setup.py
 %files -n python3-%{srcname}
 %doc README.rst NEWS.txt
 %{python3_sitelib}/setuptools_lint
-%{python3_sitelib}/setuptools_lint-%{version}-py?.?.egg-info
+%{python3_sitelib}/setuptools_lint-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

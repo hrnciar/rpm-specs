@@ -64,7 +64,7 @@ LANG=C.utf-8 %{__python3} -m pytest --ignore=build
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/network_runner
-%{python3_sitelib}/network_runner-%{version}-py?.?.egg-info
+%{python3_sitelib}/network_runner-%{version}-py%{python3_version}.egg-info
 
 %files -n ansible-role-%{ansible_role}
 %license LICENSE

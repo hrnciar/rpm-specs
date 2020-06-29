@@ -56,7 +56,7 @@ done
 %files -n python3-%{pypi_name}
 %doc README.rst LICENSE.txt
 %{python3_sitearch}/%{pypi_name}
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

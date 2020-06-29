@@ -80,7 +80,7 @@ py.test-3 -xv --cov=vine --cov-report=xml --no-cov-on-fail
 %license LICENSE
 %doc docs/templates/readme.txt README.rst
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %if %{with docs}
 %files -n python-%{pypi_name}-doc
